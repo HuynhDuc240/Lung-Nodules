@@ -66,6 +66,7 @@ def zoom(image ,rate ,mode = "constant"):
 
     return out
 
+# ANCHOR zoom option
 def zoom_nearest(image,rate):
     h,w  = image.shape[:2]
     zh = int(np.round(h * rate))
@@ -169,7 +170,15 @@ def zoom_mirror(image,rate):
         ho+=1
         i-=1
     return out
-
+def augmet_cube(cube, id):
+    for rate in np.arange(0.8,1.5,0.1):
+        for angle in range(0,360,30):
+            augmented_cube = []
+            for s in cube:
+                zoomed = zoom(s,rate,mode="mirror")
+                rotated = rotate(zoomed,angle)
+                augmented_cube.append(rotated)
+        
 if __name__ == "__main__":
     cube = np.load("cube/0.npy")
     image = cube[299//2,:,:]
@@ -179,5 +188,3 @@ if __name__ == "__main__":
             rotated = rotate(zoomed,angle)
             plt.imshow(rotated)
             plt.show()
-
-
